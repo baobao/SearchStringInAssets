@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR_OSX
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -74,6 +75,10 @@ namespace info.shibuya24
             GUI.skin.label.fontSize = 0;
 
             _searchString = EditorGUILayout.TextField("Search keywords", _searchString);
+            if (string.IsNullOrEmpty(_searchString) == false && ValidateInputText(_searchString) == false)
+            {
+                _searchString = "";
+            }
 
             EditorGUILayout.Space();
 
@@ -160,6 +165,17 @@ namespace info.shibuya24
                 }
             }
             EditorGUILayout.EndScrollView();
+        }
+
+        static readonly Encoding Enc = Encoding.GetEncoding("utf-8");
+
+        /// <summary>
+        /// Full-width and half-width checks
+        /// </summary>
+        private bool ValidateInputText(string str)
+        {
+            int num = Enc.GetByteCount(str);
+            return num == str.Length;
         }
 
         private void SaveSetting()
