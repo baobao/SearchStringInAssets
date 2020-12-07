@@ -4,9 +4,9 @@ SearchStringInAssets is an Editor extension that allows you to search the UnityE
 
 ![demo](https://user-images.githubusercontent.com/144386/101299365-4da63780-3875-11eb-9b56-b2fe56d95663.gif)
 
-## UPM Package
+## How to Install
 
-### Install via git URL
+### UPM Package Install via git URL
 
 After Unity 2019.3.4f1, Unity 2020.1a21, that support path query parameter of git package. You can add `https://github.com/baobao/SearchStringInAssets.git?path=Assets/UniGitHistoryViewer` to Package Manager
 
@@ -17,6 +17,11 @@ After Unity 2019.3.4f1, Unity 2020.1a21, that support path query parameter of gi
 
 or add `"info.shibuya24.search-string-in-assets":"https://github.com/baobao/SearchStringInAssets.git?path=Assets/SearchStringInAssets"` to `Packages/manifest.json`.
 
+
+### or import unitypackage
+
+Download and import unitypackage from the following page.
+https://github.com/baobao/SearchStringInAssets/releases/
 
 
 ## License
