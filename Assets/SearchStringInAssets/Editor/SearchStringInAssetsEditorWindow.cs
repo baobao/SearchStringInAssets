@@ -119,12 +119,12 @@ namespace info.shibuya24
 
             if (GUILayout.Button("Search", GUILayout.MaxWidth(100f), GUILayout.Height(24f)))
             {
+                _searchResultObjectHashSet.Clear();
+
                 if (string.IsNullOrEmpty(_searchString))
                 {
                     return;
                 }
-
-                _searchResultObjectHashSet.Clear();
 
                 if (_isIgnoreSearchPattern == false)
                 {
