@@ -44,6 +44,8 @@ namespace info.shibuya24
 
         private static int _dataPathLength;
 
+        private bool _isIgnoreSearchPattern;
+
         private void OnEnable()
         {
             // Load Saved Setting
@@ -104,6 +106,12 @@ namespace info.shibuya24
             }
             GUILayout.EndHorizontal();
 
+
+            _isIgnoreSearchPattern = EditorGUILayout.ToggleLeft(
+                new GUIContent("Ignore Search Pattern",
+                    "If enable, search pattern in search setting is disabled.Use for full text search."),
+                _isIgnoreSearchPattern);
+
             EditorGUILayout.Space();
 
             if (GUILayout.Button("Search", GUILayout.MaxWidth(100f), GUILayout.Height(24f)))
@@ -113,30 +121,18 @@ namespace info.shibuya24
                     return;
                 }
 
-                var seachResultPathList = new List<string>();
                 _searchResultObjectHashSet.Clear();
-                foreach (var pattern in _searchStringInAssetsSetting.searchPatterns)
+
+                if (_isIgnoreSearchPattern == false)
                 {
-                    var searchKey = string.Format(pattern, _searchString);
-                    GetSearchFilePathList(searchKey, seachResultPathList);
-
-                    foreach (var fileFullPath in seachResultPathList)
+                    foreach (var pattern in _searchStringInAssetsSetting.searchPatterns)
                     {
-                        // FullPath to DataPath
-                        var dataPath = FullPathToDataPath(fileFullPath);
-#if ENABLE_SEARCH_STRING_IN_ASSETS_LOG
-                        Debug.Log($"{dataPath} | {fileFullPath}");
-#endif
-                        // Convert to the entity file path if it was a meta file
-                        dataPath = ConvertMetaFileIfNeed(dataPath);
-
-                        var asset = AssetDatabase.LoadAssetAtPath(dataPath, typeof(Object));
-                        // Add to the list once it passes the ignore list
-                        if (asset != null && IsIgnoreType(asset) == false)
-                        {
-                            _searchResultObjectHashSet.Add(asset);
-                        }
+                        Search(pattern, _searchResultObjectHashSet);
                     }
+                }
+                else
+                {
+                    Search(IgnoredSearchPattern, _searchResultObjectHashSet);
                 }
             }
 
@@ -168,6 +164,33 @@ namespace info.shibuya24
         }
 
         static readonly Encoding Enc = Encoding.GetEncoding("utf-8");
+        /// <summary>
+        /// Search with Pattern
+        /// </summary>
+        private void Search(string pattern, HashSet<Object> searchObjectResultHashSet)
+        {
+            var seachResultPathList = new List<string>();
+            var searchKey = string.Format(pattern, _searchString);
+            GetSearchFilePathList(searchKey, seachResultPathList);
+
+            foreach (var fileFullPath in seachResultPathList)
+            {
+                // FullPath to DataPath
+                var dataPath = FullPathToDataPath(fileFullPath);
+#if ENABLE_SEARCH_STRING_IN_ASSETS_LOG
+                Debug.Log($"{dataPath} | {fileFullPath}");
+#endif
+                // Convert to the entity file path if it was a meta file
+                dataPath = ConvertMetaFileIfNeed(dataPath);
+
+                var asset = AssetDatabase.LoadAssetAtPath(dataPath, typeof(Object));
+                // Add to the list once it passes the ignore list
+                if (asset != null && IsIgnoreType(asset) == false)
+                {
+                    searchObjectResultHashSet.Add(asset);
+                }
+            }
+        }
 
         /// <summary>
         /// Full-width and half-width checks
