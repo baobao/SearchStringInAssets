@@ -1,8 +1,21 @@
 # SearchStringInAssets
 
+**※Only macOS.**
+
 SearchStringInAssets is an Editor extension that allows you to search the UnityEditor for strings stored in a scene, Prefab, or ScriptableObject.
 
 ![demo](https://user-images.githubusercontent.com/144386/101299365-4da63780-3875-11eb-9b56-b2fe56d95663.gif)
+
+
+## How to Use
+
+Open SearchStringInAssets from `Tools > Shibuya24 > SearchStringInAssets`.
+
+### If Use Custom Setting
+
+Create setting(ScriptableObject) from `Create > Shibuya24 > SearchStringInAssets` .  
+Set it in the SearchSetting of SearchStringInAssets, press the Save button to save the settings to the Editor.
+
 
 ## How to Install
 
