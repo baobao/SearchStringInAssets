@@ -20,7 +20,7 @@ or add `"info.shibuya24.search-string-in-assets":"https://github.com/baobao/Sear
 
 ### or import unitypackage
 
-Download and import unitypackage from the following page.
+Download and import unitypackage from the following page.  
 https://github.com/baobao/SearchStringInAssets/releases/
 
 
