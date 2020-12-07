@@ -49,6 +49,8 @@ namespace info.shibuya24
 
         private bool _isIgnoreSearchPattern;
 
+        private const string DefaultSettingGUID = "803bb1eef1645494baef7e961f6343b5";
+
         private void OnEnable()
         {
             // Load Saved Setting
@@ -59,6 +61,8 @@ namespace info.shibuya24
 #if ENABLE_SEARCH_STRING_IN_ASSETS_LOG
                 Debug.Log($"Load Settings GUID: {guid}");
 #endif
+                guid = string.IsNullOrEmpty(guid) == false ? guid : DefaultSettingGUID;
+
                 var path = AssetDatabase.GUIDToAssetPath(guid);
                 var obj = AssetDatabase.LoadAssetAtPath<SearchStringInAssetsSetting>(path);
                 if (obj != null)
