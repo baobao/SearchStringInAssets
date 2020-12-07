@@ -27,6 +27,9 @@ namespace info.shibuya24
         private const string MetaExtension = ".meta";
         private const string SaveKey = "info.shibuya24.SearchStringInAssets";
         private static readonly int MetaExtensionLength = MetaExtension.Length;
+        private const string IgnoredSearchPattern = "{0}";
+
+        private static readonly Encoding Enc = Encoding.GetEncoding("utf-8");
 
         /// <summary>
         /// Search string variables
@@ -163,7 +166,6 @@ namespace info.shibuya24
             EditorGUILayout.EndScrollView();
         }
 
-        static readonly Encoding Enc = Encoding.GetEncoding("utf-8");
         /// <summary>
         /// Search with Pattern
         /// </summary>
@@ -195,7 +197,7 @@ namespace info.shibuya24
         /// <summary>
         /// Full-width and half-width checks
         /// </summary>
-        private bool ValidateInputText(string str)
+        private static bool ValidateInputText(string str)
         {
             int num = Enc.GetByteCount(str);
             return num == str.Length;
@@ -217,7 +219,7 @@ namespace info.shibuya24
             }
         }
 
-        private string ConvertMetaFileIfNeed(string inputPath)
+        private static string ConvertMetaFileIfNeed(string inputPath)
         {
             if (inputPath.Contains(MetaExtension))
             {
@@ -227,7 +229,7 @@ namespace info.shibuya24
             return inputPath;
         }
 
-        private string FullPathToDataPath(string fileFullPath)
+        private static string FullPathToDataPath(string fileFullPath)
         {
             return $"{AssetsKeyWord}{fileFullPath.Substring(_dataPathLength)}";
         }
