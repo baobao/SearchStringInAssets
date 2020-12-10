@@ -1,5 +1,8 @@
 # SearchStringInAssets
 
+[![Releases](https://img.shields.io/github/release/baobao/SearchStringInAssets.svg)](https://github.com/baobao/SearchStringInAssets/releases)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+
 **※Only macOS.**
 
 SearchStringInAssets is an Editor extension that allows you to search the UnityEditor for strings stored in a scene, Prefab, or ScriptableObject.
