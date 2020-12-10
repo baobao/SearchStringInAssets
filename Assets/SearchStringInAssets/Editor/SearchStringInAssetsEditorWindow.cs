@@ -177,14 +177,15 @@ namespace info.shibuya24
         {
             var seachResultPathList = new List<string>();
             var searchKey = string.Format(pattern, _searchString);
-            GetSearchFilePathList(searchKey, seachResultPathList);
+            var useGrep = _searchString.Contains(".");
+            GetSearchFilePathList(searchKey, seachResultPathList, useGrep);
 
-            foreach (var fileFullPath in seachResultPathList)
+            foreach (var outputPath in seachResultPathList)
             {
                 // FullPath to DataPath
-                var dataPath = FullPathToDataPath(fileFullPath);
+                var dataPath = ResolveDataPath(outputPath, useGrep);
 #if ENABLE_SEARCH_STRING_IN_ASSETS_LOG
-                Debug.Log($"{dataPath} | {fileFullPath}");
+                Debug.Log($"{dataPath} | {outputPath}");
 #endif
                 // Convert to the entity file path if it was a meta file
                 dataPath = ConvertMetaFileIfNeed(dataPath);
@@ -233,9 +234,15 @@ namespace info.shibuya24
             return inputPath;
         }
 
-        private static string FullPathToDataPath(string fileFullPath)
+        private static string ResolveDataPath(string path, bool useGrep)
         {
-            return $"{AssetsKeyWord}{fileFullPath.Substring(_dataPathLength)}";
+            if (useGrep)
+            {
+                // Remove `./` from path.
+                return $"{AssetsKeyWord}/{path.Substring(2)}";
+            }
+
+            return $"{AssetsKeyWord}{path.Substring(_dataPathLength)}";
         }
 
         static void SetDataPathLength()
@@ -246,11 +253,11 @@ namespace info.shibuya24
         /// <summary>
         /// Return the file name of the asset containing the specified string
         /// </summary>
-        private void GetSearchFilePathList(string searchString, List<string> result)
+        private void GetSearchFilePathList(string searchString, List<string> result, bool useGrep)
         {
             Assert.IsNotNull(result, "Invalid result is null.");
 
-            var arg = $"-onlyin . {searchString}";
+            var arg = useGrep ? $"'{searchString}' -lr ." : $"-onlyin . {searchString}";
 #if ENABLE_SEARCH_STRING_IN_ASSETS_LOG
             Debug.Log($"arg : {arg}");
 #endif
@@ -261,7 +268,7 @@ namespace info.shibuya24
                 RedirectStandardError = true,
                 RedirectStandardInput = true,
                 CreateNoWindow = true,
-                FileName = "mdfind",
+                FileName = useGrep ? "grep" : "mdfind",
                 Arguments = arg,
                 WorkingDirectory = Application.dataPath
             };
