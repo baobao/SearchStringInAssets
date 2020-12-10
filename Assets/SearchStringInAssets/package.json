@@ -2,7 +2,7 @@
 {
   "name": "info.shibuya24.search-string-in-assets",
   "displayName": "SearchStringInAssets",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "unity": "2018.4",
   "description": "Editor extension to search for embedded strings in a Prefab scene.",
   "keywords": [ "Unity", "C#", "Editor", "EditorExtension" ],
