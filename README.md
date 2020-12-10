@@ -6,6 +6,9 @@ SearchStringInAssets is an Editor extension that allows you to search the UnityE
 
 ![demo](https://user-images.githubusercontent.com/144386/101299365-4da63780-3875-11eb-9b56-b2fe56d95663.gif)
 
+※Cannot be used when Spotlight is off because it uses mdfind.
+
+
 
 ## How to Use
 
